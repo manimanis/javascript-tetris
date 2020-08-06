@@ -5,12 +5,30 @@
     --y-count: 20;
 }
 
+main {
+    width: calc((var(--width) + 2px) * var(--x-count) + 9em + 60px);
+    margin: 10px auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+aside {
+    padding: 10px;
+    margin: 5px;
+    width: 9em;
+    height: 6em;
+    background-color: antiquewhite;
+    text-align: center;
+}
+
 #grid {
     width: calc((var(--width) + 2px) * var(--x-count));
     height: calc((var(--height) + 2px) * var(--y-count));
     display: flex;
     flex-wrap: wrap;
     background-color: antiquewhite;
+    padding: 10px;
+    margin: 5px;
 }
 
 #grid div {
@@ -39,4 +57,12 @@
 
 .sShape {
     background-color: #3F51B5;
+}
+
+.liShape {
+    background-color: #2196f3;
+}
+
+.ziShape {
+    background-color: #03a9f4;
 }

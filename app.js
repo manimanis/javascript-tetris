@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const squares = Array.from(document.querySelectorAll('#grid div'));
   const scoreSpan = document.querySelector('#score');
   const startBtn = document.querySelector('#start-button');
-  let TIMER_DELAY = 250;
+  let TIMER_DELAY = 400;
  
   startBtn.addEventListener('click', (e) => {
     if (!bGameStarted) {
@@ -200,12 +200,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const selectShape = () => shapesNames[Math.floor(Math.random() * shapesNames.length)];
 
   const lShape = [[1, 0], [2, 0], [1, 1], [1, 2]];
+  const liShape = [[0, 0], [1, 0], [1, 1], [1, 2]];
   const zShape = [[0, 1], [1, 1], [1, 0], [2, 0]];
+  const ziShape = [[1, 0], [2, 0], [0, 1], [1, 1]];
   const tShape = [[1, 0], [0, 1], [1, 1], [2, 1]];
   const sShape = [[0, 0], [1, 0], [0, 1], [1, 1]];
   const iShape = [[1, 0], [1, 1], [1, 2], [1, 3]];
 
-  const allShapes = { lShape, zShape, tShape, sShape, iShape };
+  const allShapes = { lShape, liShape, zShape, ziShape, tShape, sShape, iShape };
   const shapesNames = Object.keys(allShapes);
   // Current shape
   let curShapeName;
