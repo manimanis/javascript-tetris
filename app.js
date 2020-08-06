@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const width = 15;
-  const height = 25;
+  const width = 12;
+  const height = 20;
   const grid = document.querySelector('#grid');
 
   createGrid("#grid", width * height);
@@ -9,8 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const scoreSpan = document.querySelector('#score');
   const startBtn = document.querySelector('#start-button');
   let TIMER_DELAY = 250;
-
-  
+ 
+  startBtn.addEventListener('click', (e) => {
+    if (!bGameStarted) {
+      startGame();
+    } else {
+      stopGame();
+    }
+  });
 
   const rotateRight = function (shape) {
     return shape.map((coords) => [3 - coords[1], coords[0]]);
@@ -51,19 +57,27 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const resetGrid = () => {
-    squares.forEach(square => squares.classList = []);
+    squares.forEach(square => square.removeAttribute('class'));
   };
 
   const startGame = () => {
+    bGameStarted = true;
     bGameOver = false;
+    score = 0;
 
     resetGrid();
-
+    updateScore(score);
     spawnNewShape();
 
-    setTimeout(gameTimer, TIMER_DELAY);
+    startBtn.textContent = 'Stop Game';
+
+    timerID = setTimeout(gameTimer, TIMER_DELAY);
 
     document.addEventListener('keydown', (e) => {
+      if (!bGameStarted) {
+        return;
+      }
+
       e.preventDefault();
       e.stopPropagation();
 
@@ -90,8 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const stopGame = () => {
+    bGameStarted = false;
+    if (timerID) {
+      clearTimeout(timerID);
+    }
+  };
+
   const gameOver = () => {
-    bGameOver = true;
+    stopGame();
+    startBtn.textContent = 'Start Game';
     alert('Game over');
   };
 
@@ -160,15 +182,20 @@ document.addEventListener('DOMContentLoaded', () => {
       setTaken(curShapeCoords, curX, curY);
       const completedLines = getCompletedLines();
       if (completedLines.length) {
+        score += (completedLines.length + 1) * (completedLines.length + 1);
         removeLines(completedLines);
+      } else {
+        score += 1;
       }
+      updateScore(score);
       spawnNewShape();
     }
-    if (!bGameOver) {
-      setTimeout(gameTimer, TIMER_DELAY);
+    if (!bGameOver && bGameStarted) {
+      timerID = setTimeout(gameTimer, TIMER_DELAY);
     }
   };
 
+  const updateScore = (newScore) => scoreSpan.textContent = newScore;
 
   const selectShape = () => shapesNames[Math.floor(Math.random() * shapesNames.length)];
 
@@ -185,8 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let curShapeCoords;
   // Current shape position
   let curX, curY;
-
+  // Is game over
   let bGameOver = false;
-
-  startGame();
+  let bGameStarted = false;
+  let score = 0;
+  let timerID = null;
 });

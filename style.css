@@ -1,8 +1,8 @@
 :root {
-    --width: 20px;
-    --height: 20px;
-    --x-count: 15;
-    --y-count: 25;
+    --width: 16px;
+    --height: 16px;
+    --x-count: 12;
+    --y-count: 20;
 }
 
 #grid {
